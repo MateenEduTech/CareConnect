@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Care Connect Khanyar</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: #eef2f7;
+        color: #222;
+    }
+
+    /* HEADER */
+    header {
+        background: linear-gradient(135deg, #0f172a, #1e3a8a);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 36px;
+        letter-spacing: 1px;
+    }
+
+    header p {
+        margin-top: 10px;
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    /* TEAM SECTION */
+    .team {
+        max-width: 1100px;
+        margin: -40px auto 30px;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .profile {
+        background: white;
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        transition: 0.3s;
+    }
+
+    .profile:hover {
+        transform: translateY(-6px);
+    }
+
+    .profile img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 4px solid #1e3a8a;
+    }
+
+    .profile h3 {
+        margin: 5px 0;
+        font-size: 18px;
+    }
+
+    .profile span {
+        font-size: 14px;
+        color: #555;
+    }
+
+    /* APPS */
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        transition: 0.3s;
+        border-top: 5px solid #1e3a8a;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+    }
+
+    .card h3 {
+        margin-bottom: 10px;
+        color: #1e3a8a;
+    }
+
+    .card p {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #444;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+        background: #1e3a8a;
+        color: white;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #0f172a;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 13px;
+        color: #666;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Care Connect Khanyar</h1>
+    <p>Smart Community Care Solutions | GGHSS Khanyar</p>
+</header>
+
+<!-- TEAM SECTION -->
+<div class="team">
+
+    <div class="profile">
+        <img src="mateen.jpg">
+        <h3>Dr. Mateen Yousuf</h3>
+        <span>Supervisor, GGHSS Khanyar</span>
+    </div>
+
+    <div class="profile">
+        <img src="maham.jpg">
+        <h3>Maham Mushtaq</h3>
+        <span>Student Developer</span>
+    </div>
+
+    <div class="profile">
+        <img src="hani.jpg">
+        <h3>Hani Burhan</h3>
+        <span>Student Developer</span>
+    </div>
+
+</div>
+
+<!-- APPS -->
+<div class="container">
+    <div class="grid">
+
+        <div class="card">
+            <h3>Fall Detection & SOS Alert</h3>
+            <p>Emergency alert system for immediate response.</p>
+            <a href="01 - Fall Detection and SOS Alert.html" class="btn">Launch</a>
+        </div>
+
+        <div class="card">
+            <h3>Help Nearby</h3>
+            <p>Locate nearby help and assistance quickly.</p>
+            <a href="02 - Help Nearby.html" class="btn">Launch</a>
+        </div>
+
+        <div class="card">
+            <h3>Blood Donor Finder</h3>
+            <p>Find blood donors in emergency situations.</p>
+            <a href="03 - Blood Donor Finder.html" class="btn">Launch</a>
+        </div>
+
+        <div class="card">
+            <h3>Medicine Reminder</h3>
+            <p>Track medicines and manage health.</p>
+            <a href="04 - Medicine Reminder and Health Tracker.html" class="btn">Launch</a>
+        </div>
+
+        <div class="card">
+            <h3>Missing Person Alert</h3>
+            <p>Report and track missing individuals.</p>
+            <a href="05 - Missing Person Alert.html" class="btn">Launch</a>
+        </div>
+
+        <div class="card">
+            <h3>Accessibility Locator</h3>
+            <p>Find accessible facilities nearby.</p>
+            <a href="06 - Accessibility Locator.html" class="btn">Launch</a>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    © 2026 Care Connect Khanyar | Developed at GGHSS Khanyar
+</footer>
+
+</body>
+</html>
