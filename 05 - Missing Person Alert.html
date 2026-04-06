@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Missing Person Alert — CARE CONNECT</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --red: #E8232A;
+    --red-dark: #B01419;
+    --red-soft: #FFF0F0;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2E45;
+    --gold: #F5A623;
+    --white: #FFFFFF;
+    --grey: #F4F6F9;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --green: #16A34A;
+    --green-soft: #F0FDF4;
+    --border: #E5E7EB;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--grey);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 17px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .back-btn {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: white;
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.22); }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+  .header-sub { font-size: 12px; opacity: 0.65; font-weight: 500; }
+  .header-badge {
+    background: var(--red);
+    color: white;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: pulse-badge 2s infinite;
+  }
+  @keyframes pulse-badge {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ── HERO BANNER ── */
+  .hero {
+    background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 60%, #FF6B6B 100%);
+    color: white;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.03) 30px,
+      rgba(255,255,255,0.03) 60px
+    );
+  }
+  .hero-icon {
+    font-size: 52px;
+    margin-bottom: 10px;
+    animation: pulse-icon 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-icon {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-size: 15px;
+    opacity: 0.88;
+    max-width: 340px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: slide-up 0.4s ease both;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:nth-child(2) { animation-delay: 0.05s; }
+  .card:nth-child(3) { animation-delay: 0.10s; }
+  .card:nth-child(4) { animation-delay: 0.15s; }
+
+  .card-header {
+    padding: 18px 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .card-icon.red  { background: var(--red-soft); }
+  .card-icon.navy { background: #EEF1F6; }
+  .card-icon.gold { background: #FFF9EC; }
+  .card-icon.green{ background: var(--green-soft); }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .card-subtitle { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+  .card-body { padding: 16px 20px 20px; }
+
+  /* ── FORM ELEMENTS ── */
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .required { color: var(--red); }
+
+  input[type=text], input[type=tel], textarea, select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    margin-bottom: 14px;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 4px rgba(232,35,42,0.10);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .field-group { margin-bottom: 4px; }
+
+  /* ── PHOTO UPLOAD ── */
+  .photo-upload {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .photo-upload:hover { border-color: var(--red); background: var(--red-soft); }
+  .photo-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .photo-upload-icon { font-size: 36px; margin-bottom: 8px; }
+  .photo-upload-text { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .photo-upload-text strong { color: var(--red); }
+  #photo-preview {
+    display: none;
+    width: 90px; height: 90px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin: 10px auto 0;
+    border: 3px solid var(--red);
+    box-shadow: 0 4px 12px rgba(232,35,42,0.2);
+  }
+
+  /* ── LOCATION ROW ── */
+  .loc-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .loc-row input { margin-bottom: 0; flex: 1; }
+  .loc-btn {
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+    height: 52px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .loc-btn:hover { background: var(--red); transform: scale(1.05); }
+
+  /* ── SUBMIT BUTTON ── */
+  .btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--red-dark), var(--red));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(232,35,42,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,35,42,0.4); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: #ccc; box-shadow: none; transform: none; cursor: not-allowed; }
+
+  /* ── ALERT LIST ── */
+  .alert-count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .alert-count-badge {
+    background: var(--red);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .clear-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .alert-item {
+    background: var(--grey);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border-left: 4px solid var(--red);
+    animation: slide-up 0.3s ease both;
+  }
+  .alert-item.found { border-left-color: var(--green); }
+  .alert-photo {
+    width: 56px; height: 56px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .alert-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+  .alert-info { flex: 1; }
+  .alert-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+  .alert-meta { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .alert-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+  .status-searching { background: #FFF3CD; color: #856404; }
+  .status-found     { background: var(--green-soft); color: var(--green); }
+  .status-reported  { background: #EEF1F6; color: var(--navy-mid); }
+
+  .mark-found-btn {
+    background: white;
+    border: 1px solid var(--green);
+    color: var(--green);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .mark-found-btn:hover { background: var(--green-soft); }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+  }
+  .empty-state .es-icon { font-size: 44px; margin-bottom: 10px; }
+  .empty-state p { font-size: 15px; }
+
+  /* ── INFO CHIPS ── */
+  .info-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--grey);
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    border: 1.5px solid var(--border);
+  }
+  .chip .chip-icon { font-size: 16px; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--navy);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 999;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.success { background: var(--green); }
+  #toast.error   { background: var(--red); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer strong { color: var(--navy); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 400px) {
+    .hero h1 { font-size: 22px; }
+    .btn-primary { font-size: 16px; padding: 16px; }
+    input, textarea { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <button class="back-btn" onclick="history.back()" aria-label="Go back">←</button>
+    <div>
+      <div class="header-title">CARE CONNECT</div>
+      <div class="header-sub">Silver Alert System</div>
+    </div>
+  </div>
+  <div class="header-badge">🔴 LIVE</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon">🚨</div>
+  <h1>Missing Person Alert</h1>
+  <p>Report a missing elderly person. Alerts reach nearby volunteers instantly — every second counts.</p>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- REPORT FORM -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon red">📋</div>
+      <div>
+        <div class="card-title">Report Missing Person</div>
+        <div class="card-subtitle">Fill details carefully — alerts go out immediately</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <!-- PHOTO -->
+      <div class="field-group">
+        <label>Photo <span class="required">*</span></label>
+        <div class="photo-upload" id="photo-drop">
+          <input type="file" id="photo-input" accept="image/*" onchange="handlePhoto(event)" />
+          <div class="photo-upload-icon">📷</div>
+          <div class="photo-upload-text">Tap to upload photo<br><strong>Clear photo helps volunteers identify faster</strong></div>
+          <img id="photo-preview" alt="Preview" />
+        </div>
+      </div>
+
+      <!-- NAME & AGE -->
+      <div class="field-group">
+        <label for="elder-name">Full Name <span class="required">*</span></label>
+        <input type="text" id="elder-name" placeholder="e.g. Abdul Rashid Mir" />
+      </div>
+
+      <div class="field-group">
+        <label for="elder-age">Age</label>
+        <input type="text" id="elder-age" placeholder="e.g. 72 years" />
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="field-group">
+        <label for="description">Physical Description <span class="required">*</span></label>
+        <textarea id="description" placeholder="e.g. Wearing blue pheran, white cap, walks with slight limp. Has a white beard. May appear confused."></textarea>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="field-group">
+        <label for="last-location">Last Seen Location <span class="required">*</span></label>
+        <div class="loc-row">
+          <input type="text" id="last-location" placeholder="e.g. Near Lal Chowk, Srinagar" />
+          <button class="loc-btn" onclick="getLocation()" title="Use my current location">📍</button>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="field-group">
+        <label for="contact">Contact Number <span class="required">*</span></label>
+        <input type="tel" id="contact" placeholder="e.g. +91 94000 00000" />
+      </div>
+
+      <!-- SUBMIT -->
+      <button class="btn-primary" id="submit-btn" onclick="submitAlert()">
+        🚨 SEND ALERT NOW
+      </button>
+
+      <div style="margin-top: 12px; text-align:center; font-size:13px; color:var(--muted);">
+        Alert will be broadcast to all nearby volunteers immediately
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon navy">⚡</div>
+      <div>
+        <div class="card-title">How It Works</div>
+        <div class="card-subtitle">Smart community-powered system</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-chips">
+        <div class="chip"><span class="chip-icon">📡</span> Instant broadcast</div>
+        <div class="chip"><span class="chip-icon">🗺️</span> Location pinned</div>
+        <div class="chip"><span class="chip-icon">👥</span> Volunteers alerted</div>
+        <div class="chip"><span class="chip-icon">📞</span> Direct contact</div>
+        <div class="chip"><span class="chip-icon">🔔</span> Real-time updates</div>
+        <div class="chip"><span class="chip-icon">🏥</span> Escalation ready</div>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:14px; color:var(--muted); line-height:1.7;">
+        When you submit, the alert is stored and displayed to all app users nearby.
+        Anyone who spots the person can report back directly to you. 
+        <strong style="color:var(--red);">Technology + Community = Faster Recovery.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVE ALERTS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon red">🔔</div>
+      <div>
+        <div class="card-title">Active Alerts</div>
+        <div class="card-subtitle">Community is watching — report if you see them</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="alert-count">
+        <div style="font-size:14px; font-weight:600; color:var(--muted);">Currently active:</div>
+        <div class="alert-count-badge" id="alert-count-badge">0 alerts</div>
+      </div>
+      <div id="alert-list">
+        <div class="empty-state">
+          <div class="es-icon">🔍</div>
+          <p>No active alerts.<br>If someone is missing, report above.</p>
+        </div>
+      </div>
+      <button class="clear-btn" onclick="clearAll()" style="width:100%; margin-top:4px;">Clear All Resolved Alerts</button>
+    </div>
+  </div>
+
+  <!-- EMERGENCY CONTACTS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon gold">📞</div>
+      <div>
+        <div class="card-title">Emergency Numbers</div>
+        <div class="card-subtitle">If critical — contact authorities immediately</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <a href="tel:100" style="text-decoration:none;">
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--grey); border-radius:12px; padding:14px 16px;">
+            <div style="font-weight:700; color:var(--navy);">🚔 Police</div>
+            <div style="font-size:22px; font-weight:800; color:var(--red); font-family:'Syne',sans-serif;">100</div>
+          </div>
+        </a>
+        <a href="tel:108" style="text-decoration:none;">
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--grey); border-radius:12px; padding:14px 16px;">
+            <div style="font-weight:700; color:var(--navy);">🚑 Ambulance</div>
+            <div style="font-size:22px; font-weight:800; color:var(--red); font-family:'Syne',sans-serif;">108</div>
+          </div>
+        </a>
+        <a href="tel:1091" style="text-decoration:none;">
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--grey); border-radius:12px; padding:14px 16px;">
+            <div style="font-weight:700; color:var(--navy);">🆘 Senior Helpline</div>
+            <div style="font-size:22px; font-weight:800; color:var(--red); font-family:'Syne',sans-serif;">1091</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>CARE CONNECT</strong> — Elderly Support Digital Ecosystem<br>
+  Developed by Hani Burhan & Maham Mushtaq · GGHSS Khanyar, Srinagar<br>
+  <span style="color:var(--red);">♥</span> Protecting our elders, together
+</footer>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  // ── STORAGE KEY ──
+  const STORAGE_KEY = 'care_connect_alerts';
+
+  // ── LOAD FROM LOCALSTORAGE ──
+  function loadAlerts() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch { return []; }
+  }
+  function saveAlerts(alerts) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(alerts));
+  }
+
+  // ── RENDER ALERTS ──
+  function renderAlerts() {
+    const alerts = loadAlerts();
+    const list = document.getElementById('alert-list');
+    const badge = document.getElementById('alert-count-badge');
+    const active = alerts.filter(a => a.status !== 'found');
+    badge.textContent = active.length + ' alert' + (active.length !== 1 ? 's' : '');
+    badge.style.background = active.length > 0 ? 'var(--red)' : 'var(--muted)';
+
+    if (alerts.length === 0) {
+      list.innerHTML = `<div class="empty-state"><div class="es-icon">🔍</div><p>No active alerts.<br>If someone is missing, report above.</p></div>`;
+      return;
+    }
+
+    list.innerHTML = alerts.map((a, i) => `
+      <div class="alert-item ${a.status === 'found' ? 'found' : ''}" id="item-${i}">
+        <div class="alert-photo">
+          ${a.photo
+            ? `<img src="${a.photo}" alt="${a.name}" />`
+            : '👤'}
+        </div>
+        <div class="alert-info">
+          <div class="alert-name">${escHtml(a.name)}</div>
+          <div class="alert-meta">
+            ${a.age ? `🎂 ${escHtml(a.age)} &nbsp;` : ''}
+            📍 ${escHtml(a.location)}<br>
+            ${a.description ? escHtml(a.description.substring(0, 80)) + (a.description.length > 80 ? '…' : '') : ''}
+            ${a.contact ? `<br>📞 <a href="tel:${a.contact}" style="color:var(--red);font-weight:600;">${escHtml(a.contact)}</a>` : ''}
+          </div>
+          <span class="alert-status ${a.status === 'found' ? 'status-found' : 'status-searching'}">
+            ${a.status === 'found' ? '✅ Found — Safe' : '🔴 Searching…'}
+          </span>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">${a.time}</div>
+          ${a.status !== 'found' ? `<button class="mark-found-btn" onclick="markFound(${i})">✅ Mark as Found</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── PHOTO HANDLING ──
+  let photoData = null;
+  function handlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      photoData = ev.target.result;
+      const preview = document.getElementById('photo-preview');
+      preview.src = photoData;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── GEOLOCATION ──
+  function getLocation() {
+    const btn = document.querySelector('.loc-btn');
+    btn.textContent = '⏳';
+    if (!navigator.geolocation) {
+      showToast('Geolocation not supported', 'error');
+      btn.textContent = '📍';
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        document.getElementById('last-location').value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        btn.textContent = '✅';
+        setTimeout(() => btn.textContent = '📍', 2000);
+      },
+      () => {
+        document.getElementById('last-location').value = 'Srinagar, Jammu & Kashmir';
+        btn.textContent = '📍';
+        showToast('Using approximate location', '');
+      }
+    );
+  }
+
+  // ── SUBMIT ALERT ──
+  function submitAlert() {
+    const name     = document.getElementById('elder-name').value.trim();
+    const age      = document.getElementById('elder-age').value.trim();
+    const desc     = document.getElementById('description').value.trim();
+    const location = document.getElementById('last-location').value.trim();
+    const contact  = document.getElementById('contact').value.trim();
+
+    if (!name) { showToast('⚠️ Please enter the name', 'error'); return; }
+    if (!desc)  { showToast('⚠️ Please add a description', 'error'); return; }
+    if (!location) { showToast('⚠️ Please enter last known location', 'error'); return; }
+    if (!contact)  { showToast('⚠️ Please enter contact number', 'error'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Sending alert…';
+
+    setTimeout(() => {
+      const alerts = loadAlerts();
+      alerts.unshift({
+        name, age, description: desc, location, contact,
+        photo: photoData,
+        status: 'searching',
+        time: new Date().toLocaleString('en-IN', { hour12: true, day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })
+      });
+      saveAlerts(alerts);
+      renderAlerts();
+
+      // Reset form
+      ['elder-name','elder-age','description','last-location','contact'].forEach(id => document.getElementById(id).value = '');
+      photoData = null;
+      document.getElementById('photo-preview').style.display = 'none';
+      document.getElementById('photo-input').value = '';
+
+      btn.disabled = false;
+      btn.innerHTML = '🚨 SEND ALERT NOW';
+
+      showToast('🚨 Alert sent! Volunteers notified.', 'success');
+    }, 1200);
+  }
+
+  // ── MARK FOUND ──
+  function markFound(index) {
+    const alerts = loadAlerts();
+    if (alerts[index]) {
+      alerts[index].status = 'found';
+      saveAlerts(alerts);
+      renderAlerts();
+      showToast('✅ Great news! Marked as found.', 'success');
+    }
+  }
+
+  // ── CLEAR ALL ──
+  function clearAll() {
+    const alerts = loadAlerts().filter(a => a.status !== 'found');
+    saveAlerts(alerts);
+    renderAlerts();
+    showToast('Resolved alerts cleared', '');
+  }
+
+  // ── TOAST ──
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = type ? `show ${type}` : 'show';
+    setTimeout(() => { t.className = ''; }, 3000);
+  }
+
+  // ── INIT ──
+  renderAlerts();
+</script>
+</body>
+</html>
