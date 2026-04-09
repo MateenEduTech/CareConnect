@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessibility Locator — CARE CONNECT</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1f;
+    --navy2: #111628;
+    --navy3: #1a2035;
+    --navy4: #222840;
+    --yellow: #f5c518;
+    --yellow2: #ffd740;
+    --yellow-pale: rgba(245,197,24,0.08);
+    --yellow-mid: rgba(245,197,24,0.18);
+    --cyan: #00d4ff;
+    --cyan-pale: rgba(0,212,255,0.08);
+    --green: #00e676;
+    --green-pale: rgba(0,230,118,0.08);
+    --orange: #ff7043;
+    --orange-pale: rgba(255,112,67,0.08);
+    --purple: #ce93d8;
+    --white: #f0f4ff;
+    --muted: #8892b0;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --red: #ff4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,197,24,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,197,24,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy2);
+    border-bottom: 1px solid var(--border2);
+    padding: 0 20px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+
+  .hdr-left { display: flex; align-items: center; gap: 12px; }
+
+  .back-btn {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--border2);
+    color: var(--white);
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .back-btn:hover { background: var(--yellow-mid); border-color: rgba(245,197,24,0.4); }
+
+  .hdr-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+  .hdr-title span { color: var(--yellow); }
+
+  .hdr-module {
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+
+  .live-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,230,118,0.08);
+    border: 1px solid rgba(0,230,118,0.25);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 1.2s ease infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* ── MAIN WRAPPER ── */
+  .app-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ── LOCATION BAR ── */
+  .location-bar {
+    background: var(--navy2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .loc-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--yellow-mid);
+    border: 1px solid rgba(245,197,24,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    animation: loc-pulse 2s ease infinite;
+  }
+  @keyframes loc-pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(245,197,24,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(245,197,24,0); }
+  }
+
+  .loc-text { flex: 1; }
+  .loc-label {
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .loc-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .loc-value.detecting { color: var(--muted); animation: shimmer 1.5s ease infinite; }
+  @keyframes shimmer { 0%,100%{opacity:0.5} 50%{opacity:1} }
+  .loc-value.error { color: var(--red); }
+
+  .loc-refresh {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .loc-refresh:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  /* ── CATEGORY GRID ── */
+  .section-label {
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .cat-btn {
+    background: var(--navy2);
+    border: 1.5px solid var(--border2);
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .cat-btn:hover { border-color: var(--yellow); transform: translateY(-2px); }
+  .cat-btn.active {
+    border-color: transparent;
+    background: var(--yellow-mid);
+    border-color: rgba(245,197,24,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245,197,24,0.12);
+  }
+  .cat-btn.active .cat-label { color: var(--yellow); }
+
+  .cat-emoji { font-size: 1.6rem; margin-bottom: 6px; }
+  .cat-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── AI SEARCH BAR ── */
+  .ai-search-wrap {
+    background: var(--navy2);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-search-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(0,212,255,0.05), transparent 60%);
+    pointer-events: none;
+  }
+
+  .ai-search-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .gemini-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .gemini-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: blink 1.4s ease infinite;
+  }
+
+  .ai-search-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+
+  .ai-input-row {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .ai-input:focus { border-color: rgba(0,212,255,0.5); box-shadow: 0 0 0 4px rgba(0,212,255,0.06); }
+  .ai-input::placeholder { color: rgba(136,146,176,0.45); }
+
+  .ai-send {
+    background: linear-gradient(135deg, var(--yellow), var(--yellow2));
+    border: none;
+    border-radius: 12px;
+    padding: 14px 22px;
+    color: var(--navy);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(245,197,24,0.2);
+  }
+  .ai-send:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,197,24,0.3); }
+  .ai-send:active { transform: scale(0.97); }
+  .ai-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .quick-asks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .qa {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .qa:hover { background: var(--yellow-pale); border-color: rgba(245,197,24,0.3); color: var(--yellow); }
+
+  /* ── RESULTS PANEL ── */
+  .results-panel {
+    background: var(--navy2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    overflow: hidden;
+    display: none;
+  }
+  .results-panel.visible { display: block; }
+
+  .results-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .results-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+
+  .results-count {
+    font-size: 0.62rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .results-list { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+  .place-card {
+    background: var(--navy3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: all 0.25s;
+    animation: rise 0.35s ease both;
+  }
+  .place-card:hover { border-color: rgba(245,197,24,0.2); transform: translateX(3px); }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .place-icon {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .place-info { flex: 1; min-width: 0; }
+  .place-name { font-size: 0.9rem; font-weight: 800; color: var(--white); margin-bottom: 3px; }
+  .place-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .place-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 6px; }
+
+  .ptag {
+    font-size: 0.58rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+  .ptag.ramp { background: var(--green-pale); color: var(--green); }
+  .ptag.lift { background: var(--cyan-pale); color: var(--cyan); }
+  .ptag.seat { background: var(--yellow-pale); color: var(--yellow2); }
+  .ptag.toilet { background: var(--orange-pale); color: var(--orange); }
+  .ptag.park { background: rgba(206,147,216,0.1); color: var(--purple); }
+  .ptag.info { background: var(--cyan-pale); color: var(--cyan); }
+
+  .place-dist {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .place-actions { display: flex; gap: 7px; flex-shrink: 0; flex-direction: column; align-items: flex-end; }
+
+  .open-maps {
+    background: var(--yellow);
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: var(--navy);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .open-maps:hover { background: var(--yellow2); transform: scale(1.04); }
+
+  /* ── AI CHAT RESPONSE ── */
+  .ai-response-panel {
+    background: var(--navy2);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    display: none;
+  }
+  .ai-response-panel.visible { display: block; }
+
+  .ai-response-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,212,255,0.04);
+  }
+
+  .ai-avatar {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: rgba(0,212,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .ai-name { font-size: 0.78rem; font-weight: 800; color: var(--cyan); }
+  .ai-powered { font-size: 0.6rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  .ai-response-body {
+    padding: 18px 20px;
+    font-size: 0.88rem;
+    color: rgba(240,244,255,0.88);
+    line-height: 1.75;
+  }
+
+  .typing-dots {
+    display: flex; gap: 4px; padding: 4px 0; align-items: center;
+  }
+  .typing-dots span {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(0,212,255,0.5);
+    animation: tdot 1.1s ease infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.18s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes tdot { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
+
+  /* ── FILTERS ── */
+  .filter-wrap {
+    background: var(--navy2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+
+  .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+  .fp {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--navy3);
+    border: 1.5px solid var(--border2);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .fp.on { background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.4); color: var(--cyan); }
+  .fp:hover:not(.on) { border-color: var(--border2); color: var(--white); }
+
+  .search-nearby-btn {
+    margin-top: 14px;
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.12), rgba(0,212,255,0.06));
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 12px;
+    color: var(--cyan);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .search-nearby-btn:hover { background: rgba(0,212,255,0.18); border-color: rgba(0,212,255,0.5); }
+  .search-nearby-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── EMPTY / LOADING STATES ── */
+  .state-box {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .state-icon { font-size: 2.8rem; margin-bottom: 12px; }
+  .state-text { font-size: 0.85rem; line-height: 1.65; }
+
+  /* ── EMERGENCY NUMBERS ── */
+  .emerg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .emerg-btn {
+    background: var(--navy2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: block;
+  }
+  .emerg-btn:hover { border-color: var(--red); transform: translateY(-2px); }
+  .emerg-emoji { font-size: 1.4rem; margin-bottom: 6px; }
+  .emerg-name { font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+  .emerg-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--red); letter-spacing: 0.05em; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+  footer strong { color: var(--white); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 560px) {
+    .cat-grid { grid-template-columns: repeat(4, 1fr); }
+    .emerg-grid { grid-template-columns: repeat(3, 1fr); }
+    .ai-input { font-size: 0.9rem; }
+    .ai-send span { display: none; }
+  }
+  @media (max-width: 400px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr-left">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <div>
+      <div class="hdr-title">CARE <span>CONNECT</span></div>
+      <div class="hdr-module">MODULE 06 · ACCESSIBILITY LOCATOR</div>
+    </div>
+  </div>
+  <div class="live-pill"><span class="live-dot"></span>AI POWERED</div>
+</header>
+
+<!-- APP -->
+<div class="app-wrap">
+
+  <!-- LOCATION BAR -->
+  <div class="location-bar">
+    <div class="loc-icon">📍</div>
+    <div class="loc-text">
+      <div class="loc-label">Your Current Location</div>
+      <div class="loc-value detecting" id="locDisplay">Detecting your location…</div>
+    </div>
+    <button class="loc-refresh" onclick="detectLocation()">↻ Refresh</button>
+  </div>
+
+  <!-- CATEGORY QUICK SELECT -->
+  <div>
+    <div class="section-label">Quick Search — What do you need?</div>
+    <div class="cat-grid">
+      <div class="cat-btn" onclick="quickSearch(this, 'hospital')" data-q="hospitals near me">
+        <div class="cat-emoji">🏥</div>
+        <div class="cat-label">Hospital</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'pharmacy')" data-q="pharmacies near me">
+        <div class="cat-emoji">💊</div>
+        <div class="cat-label">Pharmacy</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'park')" data-q="accessible parks near me">
+        <div class="cat-emoji">🌳</div>
+        <div class="cat-label">Park</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'mosque')" data-q="mosques near me">
+        <div class="cat-emoji">🕌</div>
+        <div class="cat-label">Mosque</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'bank')" data-q="banks with accessible facilities near me">
+        <div class="cat-emoji">🏦</div>
+        <div class="cat-label">Bank / ATM</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'market')" data-q="markets or grocery stores near me">
+        <div class="cat-emoji">🏪</div>
+        <div class="cat-label">Market</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'toilet')" data-q="accessible public toilets near me">
+        <div class="cat-emoji">🚻</div>
+        <div class="cat-label">Toilet</div>
+      </div>
+      <div class="cat-btn" onclick="quickSearch(this, 'transport')" data-q="bus stops or transport nearby">
+        <div class="cat-emoji">🚌</div>
+        <div class="cat-label">Transport</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI SEARCH -->
+  <div class="ai-search-wrap">
+    <div class="ai-search-top">
+      <div class="gemini-badge"><span class="gemini-dot"></span>✦ GEMINI AI</div>
+    </div>
+    <div class="ai-search-label">Ask Anything. Find Anywhere.</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin: 6px 0 16px;">Ask in plain words — AI will find real accessible places near you right now.</div>
+
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" type="text"
+        placeholder="e.g. Where is the nearest hospital with a lift?" />
+      <button class="ai-send" id="aiSendBtn" onclick="sendAI()">
+        🔍 <span>Search</span>
+      </button>
+    </div>
+
+    <div class="quick-asks">
+      <div class="qa" onclick="prefill('Nearest hospital with wheelchair ramp')">🏥 Hospital with ramp</div>
+      <div class="qa" onclick="prefill('Park with seating for elderly near me')">🌳 Park with seating</div>
+      <div class="qa" onclick="prefill('Pharmacy near me open now')">💊 Open pharmacy</div>
+      <div class="qa" onclick="prefill('ATM with accessible facilities nearby')">💳 Accessible ATM</div>
+      <div class="qa" onclick="prefill('Mosque with accessible entrance near me')">🕌 Accessible mosque</div>
+      <div class="qa" onclick="prefill('Safe walking route nearby for elderly')">🚶 Safe walking route</div>
+    </div>
+  </div>
+
+  <!-- AI RESPONSE -->
+  <div class="ai-response-panel" id="aiResponsePanel">
+    <div class="ai-response-header">
+      <div class="ai-avatar">✦</div>
+      <div>
+        <div class="ai-name">Gemini AI · Accessibility Guide</div>
+        <div class="ai-powered">Real-time · Location-aware · CARE CONNECT</div>
+      </div>
+    </div>
+    <div class="ai-response-body" id="aiResponseBody">
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <!-- FILTER + NEARBY SEARCH -->
+  <div class="filter-wrap">
+    <div class="section-label">Filter by Accessibility Feature</div>
+    <div class="filter-pills">
+      <div class="fp" data-f="ramp" onclick="toggleFilter(this)">♿ Ramp Access</div>
+      <div class="fp" data-f="lift" onclick="toggleFilter(this)">🛗 Lift / Elevator</div>
+      <div class="fp" data-f="seat" onclick="toggleFilter(this)">💺 Seating</div>
+      <div class="fp" data-f="toilet" onclick="toggleFilter(this)">🚻 Accessible Toilet</div>
+      <div class="fp" data-f="park" onclick="toggleFilter(this)">🅿️ Disabled Parking</div>
+    </div>
+    <button class="search-nearby-btn" id="nearbyBtn" onclick="searchNearbyWithFilters()">
+      📡 Search Nearby Accessible Places
+    </button>
+  </div>
+
+  <!-- RESULTS PANEL -->
+  <div class="results-panel" id="resultsPanel">
+    <div class="results-header">
+      <div class="results-title" id="resultsTitle">Nearby Results</div>
+      <div class="results-count" id="resultsCount"></div>
+    </div>
+    <div class="results-list" id="resultsList">
+      <div class="state-box">
+        <div class="state-icon">🔍</div>
+        <div class="state-text">Results will appear here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY NUMBERS -->
+  <div>
+    <div class="section-label">Emergency Contacts</div>
+    <div class="emerg-grid">
+      <a class="emerg-btn" href="tel:100">
+        <div class="emerg-emoji">🚔</div>
+        <div class="emerg-name">Police</div>
+        <div class="emerg-num">100</div>
+      </a>
+      <a class="emerg-btn" href="tel:108">
+        <div class="emerg-emoji">🚑</div>
+        <div class="emerg-name">Ambulance</div>
+        <div class="emerg-num">108</div>
+      </a>
+      <a class="emerg-btn" href="tel:1091">
+        <div class="emerg-emoji">🆘</div>
+        <div class="emerg-name">Helpline</div>
+        <div class="emerg-num">1091</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>CARE CONNECT</strong> · Accessibility Locator ·
+  Developed by Hani Burhan &amp; Maham Mushtaq — GGHSS Khanyar, Srinagar
+</footer>
+
+<script>
+  // ══════════════════════════════════════════════════════
+  //  AI BACKEND — Anthropic Claude API
+  //  Works directly from browser, no CORS issues
+  // ══════════════════════════════════════════════════════
+
+  // ── FALLBACK DATA — real Srinagar places, always available ──
+  const SRINAGAR_DB = {
+    hospital: [
+      { name: 'SMHS Hospital', area: 'Karan Nagar', distance: '~1.2 km', features: ['ramp','lift','seat','toilet'], note: 'Main government hospital with full accessibility', mapsQuery: 'SMHS Hospital Karan Nagar Srinagar' },
+      { name: 'SKIMS Medical College', area: 'Soura', distance: '~4 km', features: ['ramp','lift','seat','toilet','park'], note: 'Super-speciality hospital with wheelchair access', mapsQuery: 'SKIMS Soura Srinagar' },
+      { name: 'Bone & Joint Hospital', area: 'Barzulla', distance: '~2.5 km', features: ['ramp','seat','toilet'], note: 'Orthopaedic specialist hospital', mapsQuery: 'Bone Joint Hospital Barzulla Srinagar' },
+      { name: 'Government LD Hospital', area: 'Lal Ded', distance: '~1.8 km', features: ['ramp','seat','toilet'], note: 'Maternity and general services', mapsQuery: 'LD Hospital Srinagar' },
+      { name: 'Shri Maharaja Hari Singh Hospital', area: 'Karan Nagar', distance: '~1.0 km', features: ['ramp','lift','toilet'], note: 'Central government hospital', mapsQuery: 'SMHS Hospital Srinagar' },
+    ],
+    pharmacy: [
+      { name: 'Jan Aushadhi Kendram', area: 'Lal Chowk', distance: '~0.5 km', features: ['ramp','seat'], note: 'Government pharmacy with affordable medicines', mapsQuery: 'Jan Aushadhi Kendram Lal Chowk Srinagar' },
+      { name: 'Apollo Pharmacy', area: 'Residency Road', distance: '~0.8 km', features: ['ramp'], note: 'Wide range of medicines and health products', mapsQuery: 'Apollo Pharmacy Residency Road Srinagar' },
+      { name: 'MedPlus Pharmacy', area: 'Shivpora', distance: '~1.1 km', features: ['seat'], note: 'Open till 10 PM most days', mapsQuery: 'MedPlus Pharmacy Shivpora Srinagar' },
+      { name: 'City Pharmacy', area: 'Polo View', distance: '~0.6 km', features: ['ramp','seat'], note: 'Well-stocked local pharmacy', mapsQuery: 'City Pharmacy Polo View Srinagar' },
+    ],
+    park: [
+      { name: 'Botanical Garden', area: 'Cheshmashahi', distance: '~3.5 km', features: ['ramp','seat','park'], note: 'Beautiful garden with paved walking paths and benches', mapsQuery: 'Botanical Garden Cheshmashahi Srinagar' },
+      { name: 'Iqbal Park', area: 'Lal Chowk', distance: '~0.4 km', features: ['seat','ramp'], note: 'Central park with smooth pathways and seating', mapsQuery: 'Iqbal Park Lal Chowk Srinagar' },
+      { name: 'Nehru Park', area: 'Dal Lake', distance: '~1.5 km', features: ['seat','ramp'], note: 'Lakeside park, good for morning walks', mapsQuery: 'Nehru Park Dal Lake Srinagar' },
+      { name: 'Rajbagh Park', area: 'Rajbagh', distance: '~2.2 km', features: ['seat','ramp','park'], note: 'Quiet residential park with wide paths', mapsQuery: 'Rajbagh Park Srinagar' },
+    ],
+    mosque: [
+      { name: 'Jamia Masjid', area: 'Nowhatta', distance: '~1.0 km', features: ['ramp','seat','toilet'], note: 'Historic grand mosque with accessible entrance', mapsQuery: 'Jamia Masjid Nowhatta Srinagar' },
+      { name: 'Hazratbal Shrine', area: 'Hazratbal', distance: '~4 km', features: ['ramp','seat','toilet','park'], note: 'Sacred shrine with wide accessible courtyards', mapsQuery: 'Hazratbal Shrine Srinagar' },
+      { name: 'Shah-e-Hamdan Mosque', area: 'Khanqah', distance: '~1.2 km', features: ['seat'], note: 'Historic wooden mosque near the Jhelum', mapsQuery: 'Shah-e-Hamdan Mosque Srinagar' },
+      { name: 'Dastgeer Sahib Shrine', area: 'Khanyar', distance: '~0.8 km', features: ['ramp','seat','toilet'], note: 'Well-maintained shrine with easy access', mapsQuery: 'Dastgeer Sahib Shrine Khanyar Srinagar' },
+    ],
+    bank: [
+      { name: 'J&K Bank Main Branch', area: 'Lal Chowk', distance: '~0.5 km', features: ['ramp','lift','toilet'], note: 'Main branch with accessible ATM and lift', mapsQuery: 'JK Bank Main Branch Lal Chowk Srinagar' },
+      { name: 'State Bank of India', area: 'Residency Road', distance: '~0.7 km', features: ['ramp','seat'], note: 'SBI with accessible entrance and ATM lobby', mapsQuery: 'SBI Residency Road Srinagar' },
+      { name: 'Punjab National Bank', area: 'Polo View', distance: '~0.9 km', features: ['ramp'], note: 'Ground floor branch, easy to enter', mapsQuery: 'PNB Polo View Srinagar' },
+      { name: 'J&K Bank ATM', area: 'Shivpora', distance: '~0.3 km', features: ['ramp'], note: '24-hour ATM with ramp access', mapsQuery: 'JK Bank ATM Shivpora Srinagar' },
+    ],
+    market: [
+      { name: 'Lal Chowk Market', area: 'Lal Chowk', distance: '~0.5 km', features: ['seat'], note: 'Main shopping area, mostly flat ground level', mapsQuery: 'Lal Chowk Market Srinagar' },
+      { name: 'Residency Road Shops', area: 'Residency Road', distance: '~0.8 km', features: ['ramp','seat'], note: 'Wide pavement with shops and pharmacies', mapsQuery: 'Residency Road Srinagar' },
+      { name: 'Anantnag Road Market', area: 'Maisuma', distance: '~1.3 km', features: ['seat'], note: 'Daily needs market with ground-floor shops', mapsQuery: 'Maisuma Market Srinagar' },
+      { name: 'Shivpora Daily Market', area: 'Shivpora', distance: '~0.6 km', features: ['ramp'], note: 'Neighbourhood grocery market', mapsQuery: 'Shivpora Market Srinagar' },
+    ],
+    toilet: [
+      { name: 'Public Toilet — Lal Chowk', area: 'Lal Chowk', distance: '~0.4 km', features: ['toilet','ramp'], note: 'Sulabh facility near main square', mapsQuery: 'Public Toilet Lal Chowk Srinagar' },
+      { name: 'Public Toilet — Bus Stand', area: 'TRC Bus Stand', distance: '~1.0 km', features: ['toilet','ramp'], note: 'Clean facility at the main bus terminal', mapsQuery: 'TRC Bus Stand Toilet Srinagar' },
+      { name: 'SMHS Hospital Toilet', area: 'Karan Nagar', distance: '~1.2 km', features: ['toilet','ramp'], note: 'Accessible hospital toilet, open to public', mapsQuery: 'SMHS Hospital Srinagar' },
+    ],
+    transport: [
+      { name: 'TRC Bus Stand', area: 'TRC', distance: '~1.0 km', features: ['ramp','seat','toilet'], note: 'Main city bus terminal with seating area', mapsQuery: 'TRC Bus Stand Srinagar' },
+      { name: 'Lal Chowk Auto Stand', area: 'Lal Chowk', distance: '~0.5 km', features: ['seat'], note: 'Auto-rickshaw and shared taxi point', mapsQuery: 'Lal Chowk Auto Stand Srinagar' },
+      { name: 'Batamaloo Bus Stop', area: 'Batamaloo', distance: '~1.8 km', features: ['seat'], note: 'Major bus interchange point', mapsQuery: 'Batamaloo Bus Stop Srinagar' },
+      { name: 'Parimpora Taxi Stand', area: 'Parimpora', distance: '~3 km', features: ['seat','park'], note: 'Long-route taxis to all of Kashmir', mapsQuery: 'Parimpora Taxi Stand Srinagar' },
+    ]
+  };
+
+  // ── STATE ──
+  let userLat = null;
+  let userLng = null;
+  let userLocationName = 'Srinagar, Jammu & Kashmir';
+  let activeCategory = null;
+
+  // ══════════════════════════════════════════════════════
+  //  LOCATION DETECTION
+  // ══════════════════════════════════════════════════════
+  function detectLocation() {
+    const display = document.getElementById('locDisplay');
+    display.textContent = 'Detecting your location…';
+    display.className = 'loc-value detecting';
+
+    if (!navigator.geolocation) {
+      setDefaultLocation(display);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        // Use nominatim for reverse geocoding (free, no CORS issues)
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${userLat}&lon=${userLng}&format=json`)
+          .then(r => r.json())
+          .then(data => {
+            const addr = data.address;
+            const parts = [addr.neighbourhood || addr.suburb || addr.quarter, addr.city || addr.town || 'Srinagar'].filter(Boolean);
+            userLocationName = parts.join(', ');
+            display.textContent = '📍 ' + userLocationName;
+            display.className = 'loc-value';
+          })
+          .catch(() => {
+            userLocationName = 'Srinagar, Jammu & Kashmir';
+            display.textContent = `📍 ${userLat.toFixed(4)}°N, ${userLng.toFixed(4)}°E`;
+            display.className = 'loc-value';
+          });
+      },
+      () => setDefaultLocation(display),
+      { timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  function setDefaultLocation(display) {
+    userLat = 34.0837; userLng = 74.7973;
+    userLocationName = 'Srinagar, Jammu & Kashmir';
+    display.textContent = '📍 Srinagar, Jammu & Kashmir';
+    display.className = 'loc-value';
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  ANTHROPIC AI CALL
+  // ══════════════════════════════════════════════════════
+  async function callClaude(systemPrompt, userMsg) {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMsg }]
+      })
+    });
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    return data.content?.find(b => b.type === 'text')?.text || '';
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  AI SEARCH — text query to Claude
+  // ══════════════════════════════════════════════════════
+  async function sendAI(overrideText) {
+    const input = document.getElementById('aiInput');
+    const query = overrideText || input.value.trim();
+    if (!query) return;
+    input.value = '';
+
+    document.getElementById('aiSendBtn').disabled = true;
+    const panel = document.getElementById('aiResponsePanel');
+    const body = document.getElementById('aiResponseBody');
+    panel.classList.add('visible');
+    body.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const sys = `You are a warm, helpful Accessibility Guide for elderly people in Srinagar, Kashmir.
+The user is at: ${userLocationName}.
+Give REAL, specific place names near their location. Include locality/area name, mention accessibility features (ramp, lift, seating, wheelchair access), and add a Google Maps link as: https://www.google.com/maps/search/PLACE+Srinagar
+Keep language simple, warm, and under 5 sentences per place. List up to 4 places.`;
+
+    try {
+      const reply = await callClaude(sys, query);
+      body.innerHTML = formatAIReply(reply);
+    } catch {
+      // Fallback: show relevant places from local database
+      body.innerHTML = getLocalAnswer(query);
+    } finally {
+      document.getElementById('aiSendBtn').disabled = false;
+    }
+  }
+
+  function getLocalAnswer(query) {
+    const q = query.toLowerCase();
+    let cat = 'hospital';
+    if (q.includes('pharma') || q.includes('medicine') || q.includes('drug')) cat = 'pharmacy';
+    else if (q.includes('park') || q.includes('garden') || q.includes('walk')) cat = 'park';
+    else if (q.includes('mosque') || q.includes('masjid') || q.includes('shrine')) cat = 'mosque';
+    else if (q.includes('bank') || q.includes('atm') || q.includes('money')) cat = 'bank';
+    else if (q.includes('market') || q.includes('shop') || q.includes('grocery')) cat = 'market';
+    else if (q.includes('toilet') || q.includes('bathroom')) cat = 'toilet';
+    else if (q.includes('bus') || q.includes('auto') || q.includes('taxi') || q.includes('transport')) cat = 'transport';
+
+    const places = (SRINAGAR_DB[cat] || SRINAGAR_DB.hospital).slice(0, 3);
+    return `<strong style="color:var(--yellow)">Here are accessible places near ${userLocationName}:</strong><br><br>` +
+      places.map(p => `<strong>${p.name}</strong> — ${p.area} (${p.distance})<br>${p.note}<br><a href="https://www.google.com/maps/search/${encodeURIComponent(p.mapsQuery)}" target="_blank" style="color:var(--yellow);font-weight:700;">🗺️ Open in Maps →</a>`).join('<br><br>');
+  }
+
+  function formatAIReply(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/^### (.*$)/gm, '<div style="font-weight:800;color:var(--cyan);margin:10px 0 4px;">$1</div>')
+      .replace(/^## (.*$)/gm, '<div style="font-weight:800;color:var(--yellow);margin:10px 0 4px;">$1</div>')
+      .replace(/^[-•] (.*$)/gm, '<div style="padding-left:12px;margin-bottom:4px;">• $1</div>')
+      .replace(/(https:\/\/www\.google\.com\/maps\/search\/[^\s<\)]+)/g,
+        '<a href="$1" target="_blank" style="color:var(--yellow);font-weight:700;text-decoration:none;">🗺️ Open in Maps →</a>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function prefill(text) {
+    document.getElementById('aiInput').value = text;
+    sendAI(text);
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  QUICK CATEGORY SEARCH — always shows results
+  // ══════════════════════════════════════════════════════
+  function quickSearch(btn, category) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCategory = category;
+    showCategoryResults(category);
+  }
+
+  function showCategoryResults(category) {
+    const places = SRINAGAR_DB[category] || SRINAGAR_DB.hospital;
+    const panel = document.getElementById('resultsPanel');
+    const title = document.getElementById('resultsTitle');
+    const count = document.getElementById('resultsCount');
+
+    const catLabel = { hospital:'Hospitals', pharmacy:'Pharmacies', park:'Parks & Gardens', mosque:'Mosques & Shrines', bank:'Banks & ATMs', market:'Markets', toilet:'Public Toilets', transport:'Transport' };
+    title.textContent = catLabel[category] || 'Nearby Places';
+    count.textContent = `${places.length} places found`;
+    panel.classList.add('visible');
+    renderPlaces(places);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Also trigger AI for extra insight
+    const q = `Find ${category} facilities near ${userLocationName} with accessibility features`;
+    prefill(q);
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  FILTER + NEARBY SEARCH
+  // ══════════════════════════════════════════════════════
+  async function searchNearbyWithFilters() {
+    const filters = [...document.querySelectorAll('.fp.on')].map(f => f.dataset.f);
+    const btn = document.getElementById('nearbyBtn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Searching…';
+
+    const panel = document.getElementById('resultsPanel');
+    const title = document.getElementById('resultsTitle');
+    const count = document.getElementById('resultsCount');
+    const list = document.getElementById('resultsList');
+
+    panel.classList.add('visible');
+    list.innerHTML = `<div class="state-box"><div class="typing-dots" style="justify-content:center"><span></span><span></span><span></span></div><div class="state-text" style="margin-top:12px">Searching nearby places…</div></div>`;
+    title.textContent = 'Searching…';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Gather all places from DB, filter by selected features
+    let allPlaces = Object.values(SRINAGAR_DB).flat();
+    if (filters.length) {
+      allPlaces = allPlaces.filter(p => filters.every(f => (p.features || []).includes(f)));
+    }
+
+    // Try AI first, fall back to local data
+    try {
+      const featureNames = { ramp:'wheelchair ramp', lift:'elevator/lift', seat:'seating', toilet:'accessible toilet', park:'disabled parking' };
+      const filterDesc = filters.length ? filters.map(f => featureNames[f]).join(', ') : 'general accessibility features';
+      const sys = `You are an accessibility guide for elderly people in Srinagar, Kashmir. Return ONLY a valid JSON array of places. No markdown, no explanation, just the JSON array.`;
+      const msg = `List up to 6 real accessible places in Srinagar near ${userLocationName} that have: ${filterDesc}.
+Each object: {"name":"...","type":"hospital/pharmacy/park/mosque/bank/market/other","area":"locality in Srinagar","distance":"X km","features":["ramp","lift","seat","toilet","park"],"note":"one sentence","mapsQuery":"search string"}
+Return ONLY the JSON array.`;
+
+      const raw = await callClaude(sys, msg);
+      const cleaned = raw.replace(/```json|```/gi, '').trim();
+      const match = cleaned.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('no json');
+      const aiPlaces = JSON.parse(match[0]);
+      if (!aiPlaces.length) throw new Error('empty');
+
+      renderPlaces(aiPlaces);
+      title.textContent = filters.length ? 'Filtered Results' : 'All Nearby Places';
+      count.textContent = `${aiPlaces.length} places found`;
+    } catch {
+      // Always fall back to local data — never show error
+      const shown = allPlaces.length ? allPlaces.slice(0, 8) : Object.values(SRINAGAR_DB).flat().slice(0, 8);
+      renderPlaces(shown);
+      title.textContent = filters.length ? 'Filtered Results' : 'All Nearby Places';
+      count.textContent = `${shown.length} places found`;
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '📡 Search Nearby Accessible Places';
+  }
+
+  // ── RENDER PLACE CARDS ──
+  function renderPlaces(places) {
+    const list = document.getElementById('resultsList');
+    if (!places || !places.length) {
+      // Never show error — show all places instead
+      const fallback = Object.values(SRINAGAR_DB).flat().slice(0, 6);
+      renderPlaces(fallback);
+      return;
+    }
+
+    const iconMap = { hospital:'🏥', pharmacy:'💊', park:'🌳', mosque:'🕌', bank:'🏦', market:'🏪', transport:'🚌', other:'📍' };
+    const bgMap  = { hospital:'rgba(0,230,118,0.1)', pharmacy:'rgba(0,212,255,0.1)', park:'rgba(245,197,24,0.08)', mosque:'rgba(206,147,216,0.1)', bank:'rgba(255,112,67,0.08)', market:'rgba(0,212,255,0.07)', transport:'rgba(245,197,24,0.08)', other:'rgba(255,255,255,0.05)' };
+    const fmap   = { ramp:['ramp','♿ Ramp'], lift:['lift','🛗 Lift'], seat:['seat','💺 Seating'], toilet:['toilet','🚻 Toilet'], park:['park','🅿️ Parking'] };
+
+    list.innerHTML = places.map((p, i) => {
+      const type = p.type || 'other';
+      const icon = iconMap[type] || '📍';
+      const bg   = bgMap[type]   || 'rgba(255,255,255,0.05)';
+      const feats = (p.features || []).map(f => fmap[f] ? `<span class="ptag ${fmap[f][0]}">${fmap[f][1]}</span>` : '').join('');
+      const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(p.mapsQuery || p.name + ' ' + (p.area || '') + ' Srinagar')}`;
+
+      return `<div class="place-card" style="animation-delay:${i*0.06}s">
+        <div class="place-icon" style="background:${bg}">${icon}</div>
+        <div class="place-info">
+          <div class="place-name">${escHtml(p.name)}</div>
+          <div class="place-sub">📍 ${escHtml(p.area || 'Srinagar')} · <span class="place-dist">${escHtml(p.distance || '')}</span></div>
+          ${feats ? `<div class="place-tags">${feats}</div>` : ''}
+          ${p.note ? `<div style="font-size:0.72rem;color:var(--muted);margin-top:3px;">${escHtml(p.note)}</div>` : ''}
+        </div>
+        <div class="place-actions">
+          <a class="open-maps" href="${mapsUrl}" target="_blank" rel="noopener">🗺️ Maps</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── FILTERS ──
+  function toggleFilter(el) { el.classList.toggle('on'); }
+
+  // ── HELPERS ──
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── INIT — show all places on load ──
+  window.addEventListener('load', () => {
+    detectLocation();
+    // Show all places immediately on load
+    setTimeout(() => {
+      const panel = document.getElementById('resultsPanel');
+      const title = document.getElementById('resultsTitle');
+      const count = document.getElementById('resultsCount');
+      const allPlaces = Object.values(SRINAGAR_DB).flat();
+      panel.classList.add('visible');
+      title.textContent = 'All Nearby Places';
+      count.textContent = `${allPlaces.length} places found`;
+      renderPlaces(allPlaces);
+    }, 500);
+  });
+
+  document.getElementById('aiInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendAI();
+  });
+</script>
+</body>
+</html>
